@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title>区服浏览</title>
+	<script type="text/javascript" src="resources/scripts/jquery-1.7.1.min.js"></script>	
+</head>
+<body>
+   <label for="games">区服列表</label>
+<P> 
+<select id="games">	
+	<option value="-1">请选择区服</option>
+#foreach($item in $gameList)	
+		<option value="$item.Code">$item.Name</option>
+#end
+</select>
+</P>
+
+<script type="text/javascript">
+	jQuery(function(){
+		$("#games").on("change",function(){
+			jQuery.ajax({
+				url:"getServerList",
+				type:"get",
+				dataType: "json",
+				data:{gameId:$(this).val()},
+				success:function(data){
+					var html='';
+					html+='<option value="-1">请选择区服</option>'
+					for(var o in data){
+						html+='<option value="'+data[o]["code"]+'">'+data[o]["name"]+'</option>'
+					}
+					$("#servers").empty().html(html);
+				}			
+			})
+		});
+	});
+</script>
+</body>
+</html>
